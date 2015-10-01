@@ -21,8 +21,16 @@
         7 => "Domingo"
     );
 
+    echo "<h3>Con bucle for:</h3>";
+
     for($i = 1; $i <= 7; $i++){
         echo "<p>Hoy es $d[$i], y tiene el indice $i.</p>";
+    }
+
+    echo "<h3>Con bucle foreach:</h3>";
+
+    foreach($d as $indice => $valor){
+        echo "<p>Hoy es $valor, y tiene el indice $indice.</p>";
     }
 
     ?>
@@ -39,12 +47,13 @@
         $s1 = array_slice($a,0,3);
         $s2 = array_splice($a, -2,2);
 
-        $length1 = count($s1);
-        for ($i = 0; $i < $length1; $i++) {
+        $length = count($s1);
+        for ($i = 0; $i < $length; $i++) {
             print "<li>$s1[$i]</li>";
         }
-        $length2 = count($s2);
-        for ($i = 0; $i < $length2; $i++) {
+
+        $length = count($s2);
+        for ($i = 0; $i < $length; $i++) {
             print "<li>$s2[$i]</li>";
         }
 
@@ -57,32 +66,33 @@
 
     <?php
 
-    $c = array();
-    $c[0][0] = "Rojo:FF0000";
-    $c[0][1] = "Verde:00FF00";
-    $c[0][2] = "Azul:0000FF";
-    $c[1][0] = "Rosa:FE9ABC";
-    $c[1][1] = "Amarillo:FDF189";
-    $c[1][2] = "Malva:BC8F8F";
+    $colores = array(
+        "Fuertes" => array("Rojo" => "FF0000", "Verde" => "00FF00", "Azul" => "0000FF"),
+        "Flojos" => array("Rosa" => "FE9ABC", "Amarillo" => "FDF189", "Malva" => "BC8F8F")
+    );
 
-    ?>
-    <table style="border: 1px solid #000; border-collapse: collapse;">
-        <?php
-        for ($i = 0; $i < 2; $i++){
-            if ($i == 0){
-                print "<tr><td style='border: 1px solid #000; padding: 15px;'>Colores Fuertes:</td>";
-            } else {
-                print "</tr><tr><td style='border: 1px solid #000; padding: 15px;'>Colores Flojos:</td>";
+
+    echo "<table style='border: 1px solid #000; border-collapse: collapse;'>";
+
+    for ($i = 0; $i < 2; $i++){
+        if ($i == 0){
+            print "<tr><td style='border: 1px solid #000; padding: 15px;'>Colores Fuertes:</td>";
+
+            foreach($colores["Fuertes"] as $indice => $valor){
+                print "<td style='border: 1px solid #000; padding: 15px;background-color:#".$valor."'>".$indice.":".$valor."</td>";
             }
-            for($x = 0; $x < 3; $x++){
-                $fondo = split(":", $c[$i][$x]);
-                print "<td style='border: 1px solid #000; padding: 15px;background-color:#".$fondo[1]."'>". $c[$i][$x] ."</td>";
+        } else {
+            print "</tr><tr><td style='border: 1px solid #000; padding: 15px;'>Colores Flojos:</td>";
+            foreach($colores["Flojos"] as $indice => $valor){
+                print "<td style='border: 1px solid #000; padding: 15px;background-color:#".$valor."'>".$indice.":".$valor."</td>";
             }
         }
-        ?>
-        </tr>
-    </table>
 
+    }
+
+    ?>
+    </tr>
+    </table>
 
 
 
@@ -91,20 +101,25 @@
 
     <p>Dado el array anterior comprueba si en él se encuentra el color “FF88CC” y el color “FF0000” usando la función in_array.</p>
 
-        <?php
+    <?php
 
+    $busqueda = "FF88CC";
 
-        $c = array();
-        $c[1]['rojo'] = "Rojo:FF0000";
-        $c[1]['verde'] = "Verde:00FF00";
-        $c[1]['azul'] = "Azul: 0000FF";
-        $c[2]['rosa'] = "Rosa:FE9ABC";
-        $c[2]['amarillo'] = "Amarillo:FDF189";
-        $c[2]['malva'] = "Malva:BC8F8F";
+    if (in_array($busqueda, $colores["Fuertes"]) || in_array("00FF00", $colores["Flojos"])) {
+        echo "<p>El color $busqueda se encuentra en el array</p>";
+    } else {
+        echo "<p>El color $busqueda no se encuentra en el array</p>";
+    }
 
-        ?>
+    $busqueda = "0000FF";
 
+    if (in_array($busqueda, $colores["Fuertes"]) || in_array("00FF00", $colores["Flojos"])) {
+        echo "<p>El color $busqueda se encuentra en el array</p>";
+    } else {
+        echo "<p>El color $busqueda no se encuentra en el array</p>";
+    }
 
+    ?>
 
 
 
