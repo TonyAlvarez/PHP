@@ -5,6 +5,13 @@
 <h1>Práctica 1 - Arrays</h1>
 
 <div class="container">
+
+
+
+
+
+
+
     <h2>Ejercicio 1</h2>
 
     <p>Crea un array $dias con los días de la semana y muestra todas sus parejas índices/valores mediante un bucle foreach y for.</p>
@@ -34,6 +41,14 @@
     }
 
     ?>
+
+
+
+
+
+
+
+
     <h2>Ejercicio 2</h2>
 
     <p>Crea un array con una lista de 5 alumnos de la clase. Muestra primero la lista de los 3 primeros alumnos del array y luego los dos últimos de la lista usando las funciones array_slice y array_splice.</p>
@@ -59,6 +74,12 @@
 
         ?>
     </ol>
+
+
+
+
+
+
 
     <h2>Ejercicio 3</h2>
 
@@ -96,6 +117,11 @@
 
 
 
+
+
+
+
+
     <h2>Ejercicio 4</h2>
 
 
@@ -120,6 +146,9 @@
     }
 
     ?>
+
+
+
 
 
 
@@ -180,10 +209,11 @@
     foreach($pila as $key=>$value){
         echo "<p>$key = $value</p>";
     }
-
-
-
     ?>
+
+
+
+
 
 
 
@@ -237,17 +267,21 @@
         echo "<p>La capital de $key es $value</p>";
     }
 
-
     asort($capital);
 
-    echo "<h3>Ordenadas por el nombre de la capital:</h3>";
 
+    echo "<h3>Ordenadas por el nombre de la capital:</h3>";
 
     foreach($capital as $key=>$value){
         echo "<p>La capital de $key es $value</p>";
     }
 
     ?>
+
+
+
+
+
 
 
     <h2>Ejercicio 7</h2>
