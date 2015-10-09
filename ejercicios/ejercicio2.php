@@ -126,9 +126,17 @@
     $ultimaLetra = $frase_b[0];
     $letras = array();
     for ($b = 0; $b < strlen($frase_b); $b++) {
-        if ($frase_b[$b] == "a") $contadorLetraA++;
+        if ($frase_b[$b] == "a")
+            $contadorLetraA++;
     }
-    echo "<p>'$frase_b' - muestra: $contadorLetraA</p>";
+
+    echo "<p>La letra 'a' aparece $contadorLetraA veces en la frase \"'$frase_b'\"</p>";
+
+    $arrayLetras = array();
+
+    foreach (count_chars($frase_b, 1) as $i => $val) {
+        echo "<p>El caracter \"", chr($i), "\" se ha encontrado $val veces.\n</p>";
+    }
     ?>
 </div>
 <div>
@@ -167,24 +175,4 @@
 </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
