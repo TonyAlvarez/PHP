@@ -9,7 +9,6 @@ del importe total por referencia en lugar de por valor.
 
  */
 
-
 function gastosPorValor($categoria, $unidades, $importe, $urgente = false) {
 
     switch ($categoria) {
@@ -32,11 +31,11 @@ function gastosPorValor($categoria, $unidades, $importe, $urgente = false) {
 
     $importe = $precio * 1.21 * $unidades;
 
-    if ($urgente) {
-        $importe = $importe * 1.05;
-    }
+    if ($urgente)
+        return $importe * 1.05;
 
     return $importe;
+
 }
 
 function frasesCiudades($pais, $capital = "Madrid", $habitantes = "muchos") {

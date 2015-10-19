@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 1</title>
+</head>
+<body>
+
+<form method="POST" action="ejercicio1.php">
+
+    <label>Texto a buscar:
+        <input type="text" name="search_query"/>
+    </label>
+    <br />
+
+    <span>Buscar en:</span>
+    <label>
+        <input type="radio" name="buscaren" value="Titulos de canción"/>
+        Titulos de canción
+    </label>
+    <label>
+        <input type="radio" name="buscaren" value="Nombre del álbum"/>
+        Nombre del álbum
+    </label>
+    <label>
+        <input type="radio" name="buscaren" value="Ámbos campos"/>
+        Ámbos campos
+    </label>
+    <br />
+
+    <label>Género musical:
+        <select name="genero">
+            <option value="Todos">Todos</option>
+            <option value="Acústica">Acústica</option>
+            <option value="Banda sonora">Banda sonora</option>
+            <option value="Blues">Blues</option>
+            <option value="Electrónica">Electrónica</option>
+            <option value="Folk">Folk</option>
+            <option value="Jazz">Jazz</option>
+            <option value="New Age">New Age</option>
+            <option value="Pop">Pop</option>
+            <option value="Rock">Rock</option>
+        </select>
+    </label>
+
+    <br />
+    <input type="submit" value="Enviar" name="enviar">
+</form>
+
+</body>
+</html>

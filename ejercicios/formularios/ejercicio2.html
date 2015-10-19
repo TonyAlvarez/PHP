@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form method="post" action="ejercicio2.php">
+
+    <h1>Elementos de entrada</h1>
+
+
+    <h2>Elementos INPUT</h2>
+
+    <h3>TEXT</h3>
+
+    <label>Introduzca la cadena a buscar:
+        <input type="text" name="texto">
+    </label>
+
+    <hr>
+
+    <h3>RADIO</h3>
+
+    <label>
+        <input type="radio" name="radio" value="Mujer"> Mujer
+    </label>
+
+    <label>
+        <input type="radio" name="radio" value="Hombre"> Hombre
+    </label>
+
+    <hr>
+
+    <h3>CHECKBOX</h3>
+
+    Extras:
+    <label>
+        <input type="checkbox" name="check_garaje" value="Garaje"> Garaje
+    </label>
+
+    <label>
+        <input type="checkbox" name="check_piscina" value="Piscina"> Piscina
+    </label>
+
+    <label>
+        <input type="checkbox" name="check_jardin" value="Jardin"> Jardin
+    </label>
+
+    <hr>
+
+    <h3>FILE</h3>
+
+    <label>
+        Fichero: <input type="file" name="file">
+    </label>
+
+    <hr>
+
+    <h3>HIDDEN</h3>
+
+    <label>
+        <input type="hidden" name="hidden">
+    </label>
+
+    <hr>
+
+    <h3>PASSWORD</h3>
+
+    <label>Contraseña:
+        <input type="password" name="password">
+    </label>
+
+    <hr>
+
+    <h2>Elemento SELECT</h2>
+
+    <h3>SELECT SIMPLE</h3>
+
+    <label>
+        Color:
+        <select name="color">
+            <option value="Rojo">Rojo</option>
+            <option value="Verde">Azul</option>
+            <option value="Azul">Azul</option>
+        </select>
+    </label>
+
+    <hr>
+
+    <h3>SELECT MULTIPLE</h3>
+
+    <label>
+        Idiomas:
+        <select multiple name="idioma">
+            <option value="Inglés">Inglés</option>
+            <option value="Francés">Francés</option>
+            <option value="Alemán">Alemán</option>
+        </select>
+    </label>
+
+    <hr>
+
+    <h2>Elemento TEXTAREA</h2>
+
+    <label>
+        Comentario:
+        <textarea name="textarea"></textarea>
+    </label>
+
+    <br />
+
+    <hr>
+
+    <input type="submit" name="enviar" value="Enviar">
+    <input type="reset" value="Borrar datos">
+
+</form>
+
+</body>
+</html>

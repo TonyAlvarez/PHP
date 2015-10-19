@@ -1,7 +1,5 @@
 <?php
 
-
-
 include_once('calculos.php');
 
 echo "<h1>Ejercicio 1</h1>";
@@ -27,7 +25,6 @@ echo "<h1>Ejercicio 2</h1>";
  * Realiza una función que reciba como parámetro un número entero (el número de días ) y devuelva el número de segundos de esos días.
  */
 
-
 $dias = 20;
 
 echo "$dias dias son " . diasASegundos($dias) . " segundos";
@@ -38,7 +35,6 @@ echo "<h1>Ejercicio 3</h1>";
 /**
  * Realiza una función que reciba como parámetro el título de la página y escriba el encabezado html, el head y el títle de la misma.
  */
-
 
 echo crearHTML("Titulo de prueba");
 
@@ -81,13 +77,13 @@ Generar un archivo “programa.php” en el que se llame a ambas funciones e imp
  *
  */
 
-echo "Comprando 4 unidades de categoria 3 <br />";
+echo "Comprando 1 unidades de categoria 2 con envio urgente<br />";
 
 $importe = 0;
 
-echo "Calculo importe por valor: " . gastosPorValor(3,4,0,true);
+echo "Calculo importe por valor: " . gastosPorValor(2,1,0,true);
 echo "<br />";
-gastosPorReferencia(3,4,$importe,true);
+gastosPorReferencia(2,1,$importe,true);
 print "Calculo importe por referencia: " . $importe;
 
 
