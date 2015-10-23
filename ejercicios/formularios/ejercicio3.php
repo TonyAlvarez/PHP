@@ -2,11 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ejercicio 1</title>
+    <title>Ejercicio 3</title>
 </head>
 <body>
 
-<form method="POST" action="ejercicio1.php">
+<?php
+
+if (isset($_POST['enviar'])) {
+    $query = $_POST['search_query'];
+    $buscaren = $_POST['buscaren'];
+    $genero = $_POST['genero'];
+
+    echo "<br />";
+    echo "Estos son los datos introducidos:";
+    echo "<br />";
+    echo "<ul>";
+    echo "<li>Texto de búsqueda: " . $query . "</li>";
+    echo "<li>Buscar en: " . $buscaren . "</li>";
+    echo "<li>Genero: " . $genero . "</li>";
+    echo "</ul>";
+
+    echo "<br />";
+    echo "<a href='ejercicio3.php'><button>Nueva búsqueda</button></a>";
+
+} else {
+?>
+    <form method="POST">
 
     <label>Texto a buscar:
         <input type="text" name="search_query"/>
@@ -46,6 +67,10 @@
     <br />
     <input type="submit" value="Enviar" name="enviar">
 </form>
+<?php
+}
+?>
+
 
 </body>
 </html>
