@@ -42,11 +42,9 @@ function frasesCiudades($pais, $capital = "Madrid", $habitantes = "muchos") {
     return "<br />La capital de " . $pais . " es " . $capital . " y tiene " . $habitantes . " habitantes.";
 }
 
-
 function diasASegundos($dias) {
     return $dias * 3600 * 24;
 }
-
 
 function convertirNegrita($frase) {
     return "<b>" . $frase . "</b>";
