@@ -8,13 +8,16 @@
 
 function existe(&$fichero, $nombre) {
 
+    $existe = false;
+
     while (($line = fgets($fichero)) !== false) {
         $array_contacto = explode(':', $line);
         if ($array_contacto[0] == $nombre)
-            return true;
+            $existe = true;
     }
 
-    return true;
+    rewind($fichero);
+    return $existe;
 }
 
 function alta(&$fichero, $nombre, $telefono) {
@@ -25,7 +28,7 @@ function alta(&$fichero, $nombre, $telefono) {
 }
 
 function modificar(&$fichero, $nombre, $nuevoTelefono) {
-    $fichero_temp = fopen("./agenda_temp.txt", 'r+');
+    $fichero_temp = fopen("./agenda_temp.txt", 'w');
     while(($line = fgets($fichero)) !== false) {
         $array_contacto = explode(':', $line);
         if ($array_contacto[0] == $nombre)
@@ -40,7 +43,7 @@ function modificar(&$fichero, $nombre, $nuevoTelefono) {
 }
 
 function baja(&$fichero, $nombre) {
-    $fichero_temp = fopen("./agenda_temp.txt", 'r+');
+    $fichero_temp = fopen("./agenda_temp.txt", 'w');
     while(($line = fgets($fichero)) !== false) {
         $array_contacto = explode(':', $line);
         if ($array_contacto[0] != $nombre)

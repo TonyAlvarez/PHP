@@ -1,9 +1,15 @@
-
 table {
-    border: 1px solid black;
     border-collapse: collapse;
 }
 
+th {
+    background-color: darkmagenta;
+}
+
 td {
+    background-color: khaki;
+}
+
+table, th, td {
     border: 1px solid black;
 }
