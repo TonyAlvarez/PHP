@@ -23,7 +23,6 @@ if (isset($_POST['enviar'])) {
         $duracion = $_POST["duracion"];
         $salida = $_POST["salida"];
 
-
         fwrite($fichero, $nombre . ":" . $destino . ":" . $duracion . ":" . $salida . "\n");
     } else {
         echo "<p style='color:red'>!Todos los datos son obligatorios!</p>";
