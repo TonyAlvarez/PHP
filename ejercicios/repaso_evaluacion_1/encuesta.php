@@ -8,7 +8,7 @@
 
 include_once "funciones.php";
 
-$ruta = "./resultados.txt";
+$ruta= "./resultados.txt";
 //Abrimos el archivo con el puntero al final
 $fichero = fopen($ruta, "a+") or die ("No se puede abrir el archivo");
 
