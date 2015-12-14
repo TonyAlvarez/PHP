@@ -14,7 +14,6 @@ $fichero = fopen($ruta, "a+") or die ("No se puede abrir el archivo");
 
 //Si se envia en formulario se comprueba que todos las campos tengan algún dato y se añade una linea al archivo
 if (isset($_POST['enviar']) && isset($_POST['piloto']) && !isset($_COOKIE["votado"])) {
-
     setcookie("votado", true);
     $radio = $_POST['piloto'];
     fwrite($fichero, $radio . "\n");
