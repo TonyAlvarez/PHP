@@ -17,21 +17,23 @@ class MySQLDataSource
 
         if (!$this->conexion) {
 
-            $this->conexion = mysqli_connect("localhost", "root", "") or die (mysqli_error($this->conexion));
+            if (!$this->conexion = @mysqli_connect("localhost", "root", "")) {
+                $this->regError(true);
+                return 0;
+            }
 
-            if (!$this->conexion)
-                $this->regError();
-
-            mysqli_set_charset($this->conexion, "UTF-8");
+            mysqli_set_charset($this->conexion, "UTF8");
 
             $db = mysqli_select_db($this->conexion, "automoviles");
 
-            if (!$db)
+            if (!$db) {
                 $this->regError();
+                return 0;
+            }
 
-        } else {
-            echo "La conexión ya está establecida";
         }
+
+        return 1;
     }
 
     function desconectar() {
@@ -43,6 +45,7 @@ class MySQLDataSource
 
         if (mysqli_error($this->conexion)) {
             $this->regError();
+            return 0;
         }
 
         return $this->query;
@@ -56,11 +59,14 @@ class MySQLDataSource
 
     function mensajeError() {
         echo "Se ha registrado un error";
-        $this->regError();
     }
 
-    private function regError() {
-        $error = mysqli_error($this->conexion);
+    private function regError($conexion = false) {
+
+        if ($conexion)
+            $error = mysqli_connect_error();
+        else
+            $error = mysqli_error($this->conexion);
 
         $fichero = fopen("errores.txt", "a");
         fwrite($fichero, "[" . date("d/m/Y H:i:s") . "] " . $error . "\n");

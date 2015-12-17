@@ -95,13 +95,84 @@
 <body>
 
 <div id="searchContainer">
-    <form>
+    <form method="post">
         <input id="field" name="field" type="text" placeholder="Buscar"/>
 
         <div id="delete"><span id="x">x</span></div>
         <input id="submit" name="submit" type="submit" value="Search"/>
     </form>
 </div>
+
+<?php
+
+include_once 'Auto.php';
+
+if (isset($_POST['submit'])) {
+
+    echo '<div style="margin-left: 50px">';
+
+    if ($_POST['field'] == "") {
+        echo '<p style="color: red;">El campo de búsqueda no puede estar vacío</p>';
+    } else {
+
+        $busqueda = $_POST['field'];
+
+        if (!$con = new mysqli("localhost", "root", "")) {
+            echo "Se ha producido un error de conexion";
+            die();
+        }
+
+        $con->set_charset("UTF8");
+
+
+        if (!$con->select_db("automoviles")) {
+            echo "Se ha producido un error de conexion a la base de datos";
+            die();
+        }
+
+        $consulta = "SELECT * FROM automoviles WHERE modelo like '%" . $busqueda . "%'";
+
+        if (!$result = $con->query($consulta)) {
+            echo "Se ha producido un error al ejecutar la consulta";
+            die();
+        }
+
+        $num_resultados = $result->num_rows;
+
+        echo "$num_resultados resultados.";
+        $array_coches = array();
+
+        echo '<ul>';
+
+        $pos_auto = 0;
+
+        while ($row = $result->fetch_row()) {
+
+            $auto = new Auto();
+
+            $auto->setId($row[0]);
+            $auto->setMarca($row[1]);
+            $auto->setModelo($row[2]);
+            $auto->setConsumo($row[3]);
+            $auto->setEmisiones($row[4]);
+
+            $array_coches[$pos_auto] = $auto;
+
+            $pos_auto++;
+
+            echo "<li>" . $auto->getMarca() . " " . $auto->getModelo() . "</li>";
+
+        }
+
+        echo '</ul>';
+
+    }
+
+    echo '</div>';
+
+}
+
+?>
 
 </body>
 </html>
