@@ -1,0 +1,28 @@
+
+h1 {
+    color: blue;
+}
+
+table {
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+th {
+    border: 1px solid #000;
+    background-color: darkolivegreen;
+}
+
+td {
+    border: 1px solid #000;
+    min-width: 75px;
+}
+
+td:last-of-type {
+    text-align: center;
+}
+
+img {
+    width: 20px;
+    height: 20px;
+}

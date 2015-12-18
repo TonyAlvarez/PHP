@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ejercicio 4</title>
+    <title>Noticias</title>
 </head>
 <body>
 
