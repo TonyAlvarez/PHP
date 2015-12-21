@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Agenda telefónica</title>
-    <link rel="stylesheet" type="text/css" href="../../estilos.css">
+    <link rel="stylesheet" type="text/css" href="../../php_config/estilos.css">
 </head>
 <body>
 

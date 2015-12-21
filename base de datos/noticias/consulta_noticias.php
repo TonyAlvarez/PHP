@@ -11,31 +11,17 @@
 
 <?php
 
-if (!$con = new mysqli("localhost", "root", "")) {
-    echo "Se ha producido un error de conexion";
-    die();
-}
+include_once "Conexion.php";
 
-$con->set_charset("UTF8");
+$con = new Conexion();
 
+$con->conectar();
 
-if (!$con->select_db("curso")) {
-    echo "Se ha producido un error de conexion a la base de datos";
-    die();
-}
-
-$consulta = "SELECT * FROM noticias";
-
-if (!$result = $con->query($consulta)) {
-    echo "Se ha producido un error al ejecutar la consulta";
-    die();
-}
+$result = $con->ejecutar_consulta("SELECT * FROM noticias");
 
 $num_resultados = $result->num_rows;
 
 echo "$num_resultados resultados.";
-
-echo '<ul>';
 
 //Si hay resultados pintamos la tabla
 if ($num_resultados > 0) {

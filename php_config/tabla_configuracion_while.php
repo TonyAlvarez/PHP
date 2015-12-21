@@ -7,21 +7,23 @@
 </head>
 <body>
 
-<h1>Parametros de configuración de $_SERVER</h1>
-
 <?php
 
+echo "<h1>Parametros de configuración de \$_SERVER con WHILE</h1>";
+
 echo "<table>";
-foreach($_SERVER as $key => $value){
+
+reset($_SERVER);
+
+while ($valor = each($_SERVER)) {
 
     echo "<tr>";
-    echo "<td>" .$key. "</td>";
-    echo "<td>" .$value. "</td>";
+    echo "<td>" .$valor[0]. "</td>";
+    echo "<td>" .$valor[1]. "</td>";
     echo "</tr>";
 }
 
 echo "</table>";
-
 
 ?>
 

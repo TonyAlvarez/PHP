@@ -6,18 +6,17 @@
 </head>
 <body>
 
+<h1>Inserción de nueva noticia</h1>
+
 <?php
 
+include_once "Conexion.php";
+
+$con = new Conexion();
+
+$con->conectar();
+
 if (isset($_POST['enviar'])) {
-
-    ?>
-
-    <h1>Subida de ficheros. Resultados del formulario</h1>
-
-    <h2>Resultado de la inserción de nueva noticia</h2>
-
-
-    <?php
 
     if ($_POST["titulo"] == null || $_POST["texto"] == null) {
 
@@ -31,8 +30,8 @@ if (isset($_POST['enviar'])) {
         </ul>
 
         <br/>
-        <a href='ejercicio4.php'>
-            <button>Volver</button>
+        <a href='inserta_noticia.php'>
+            <button>Volver.</button>
         </a>
 
         <?php
@@ -41,19 +40,31 @@ if (isset($_POST['enviar'])) {
 
         $titulo = $_POST["titulo"];
         $texto = $_POST["texto"];
-        $opcion = $_POST["opcion"];
+        $categoria = $_POST["categoria"];
 
-        $dir_subida = 'img/';
+        $dir_subida = 'imagenes/';
 
         if (!is_dir($dir_subida))
             mkdir($dir_subida, 0777);
 
-        $url_imagen = $dir_subida . time() . "-" . basename($_FILES['imagen']['name']);
+        $nombre_imagen = time() . "-" . basename($_FILES['imagen']['name']);
+
+        $url_imagen = $dir_subida . $nombre_imagen;
 
         if (move_uploaded_file($_FILES['imagen']['tmp_name'], $url_imagen))
             $imagen_subida = true;
         else
             $imagen_subida = false;
+
+        $fecha_actual = date("d/m/Y H:i:s");
+
+        if ($imagen_subida)
+            $insert= "INSERT INTO `noticias`(`titulo`, `texto`, `categoria`, `fecha`, `imagen`) VALUES ('$titulo','$texto','$categoria','$fecha_actual','$nombre_imagen')";
+        else
+            $insert= "INSERT INTO `noticias`(`titulo`, `texto`, `categoria`, `fecha`) VALUES ('$titulo','$texto','$categoria','$fecha_actual')";
+
+
+        $result = $con->ejecutar_consulta($insert);
         ?>
 
         La noticia ha sido recibida correctamente
@@ -61,13 +72,13 @@ if (isset($_POST['enviar'])) {
         <ul>
             <li>Título: <?php echo $titulo; ?></li>
             <li>Texto: <?php echo $texto; ?></li>
-            <li>Categoría: <?php echo $opcion; ?></li>
-            <li>Imagen: <?php if ($imagen_subida) echo "<a href='" . $url_imagen . "'>" . $url_imagen . "</a>"; ?></li>
+            <li>Categoría: <?php echo $categoria; ?></li>
+            <li>Imagen: <?php if ($imagen_subida) echo '<a href=\'' . $url_imagen . '\'>' . $url_imagen . "</a>"; ?></li>
         </ul>
 
         <br/>
-        <a href='ejercicio4.php'>
-            <button>Insertar otra noticia</button>
+        <a href='inserta_noticia.php'>
+            <button>Insertar otra noticia.</button>
         </a>
 
         <?php
@@ -77,11 +88,6 @@ if (isset($_POST['enviar'])) {
 } else {
 
     ?>
-
-
-    <h1>Subida de ficheros.</h1>
-
-    <h2>Insertar nueva noticia</h2>
 
     <form style="border:1px solid blue; padding: 10px" method="POST" enctype="multipart/form-data">
 
@@ -100,10 +106,10 @@ if (isset($_POST['enviar'])) {
         <br/>
 
         <label>Categoría:
-            <select name="opcion">
-                <option value="Opción 1">Opción 1</option>
-                <option value="Opción 2">Opción 2</option>
-                <option value="Opción 3">Opción 3</option>
+            <select name="categoria">
+                <option value="promociones">Promociones</option>
+                <option value="ofertas">Ofertas</option>
+                <option value="costas">Costas</option>
             </select>
         </label>
 
