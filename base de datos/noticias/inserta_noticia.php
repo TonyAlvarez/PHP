@@ -10,7 +10,7 @@
 
 <?php
 
-include_once "Conexion.php";
+include_once "conexion.php";
 
 $con = new Conexion();
 

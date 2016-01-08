@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.14
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Servidor: localhost
--- Tiempo de generación: 18-12-2015 a las 19:02:16
--- Versión del servidor: 5.6.26
--- Versión de PHP: 5.6.12
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 07-01-2016 a las 23:50:59
+-- Versión del servidor: 10.1.9-MariaDB
+-- Versión de PHP: 5.6.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `curso`
 --
+CREATE DATABASE IF NOT EXISTS `curso` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `curso`;
 
 -- --------------------------------------------------------
 
@@ -26,13 +28,15 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `noticias`
 --
 
+DROP TABLE IF EXISTS `noticias`;
 CREATE TABLE IF NOT EXISTS `noticias` (
-  `id` int(5) NOT NULL,
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `titulo` varchar(100) NOT NULL,
   `texto` text NOT NULL,
   `categoria` varchar(100) NOT NULL DEFAULT 'promociones',
   `fecha` date NOT NULL DEFAULT '0000-00-00',
-  `imagen` varchar(100) DEFAULT NULL
+  `imagen` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
@@ -46,25 +50,6 @@ INSERT INTO `noticias` (`id`, `titulo`, `texto`, `categoria`, `fecha`, `imagen`)
 (4, 'Casa reformada en el barrio de la Judería', 'Dos plantas y ático, 5 habitaciones, patio interior, amplio garaje. Situada en una calle tranquila y a un paso del centro histórico.', 'promociones', '2004-02-07', NULL),
 (5, 'Promoción en Costa Ballena', 'Con vistas al campo de golf, magníficas calidades, entorno ajardinado con piscina y servicio de vigilancia.', 'costas', '2007-02-09', 'apartamentos9.jpg');
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `noticias`
---
-ALTER TABLE `noticias`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `noticias`
---
-ALTER TABLE `noticias`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
