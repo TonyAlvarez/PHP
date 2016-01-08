@@ -15,14 +15,20 @@ th {
 
 td {
     border: 1px solid #000;
-    min-width: 75px;
+    min-width: 90px;
 }
 
-td:last-of-type {
+td:nth-of-type(5), td:nth-of-type(6) {
     text-align: center;
+    min-width: 40px;
 }
 
 img {
     width: 20px;
     height: 20px;
+}
+
+form {
+    border: 1px solid blue;
+    padding: 10px;
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Noticias</title>
+    <link rel="stylesheet" type="text/css" href="estilos.css"/>
 </head>
 <body>
 
@@ -10,7 +11,7 @@
 
 <?php
 
-include_once "conexion.php";
+include_once "Conexion.php";
 
 $con = new Conexion();
 
@@ -89,7 +90,7 @@ if (isset($_POST['enviar'])) {
 
     ?>
 
-    <form style="border:1px solid blue; padding: 10px" method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data">
 
         <label>Título: *
             <input type="text" name="titulo">
@@ -116,7 +117,6 @@ if (isset($_POST['enviar'])) {
         <br/>
         <br/>
 
-
         <input type="hidden" name="MAX_FILE_SIZE" value="500000"/>
 
         <label>Imagen:
@@ -126,7 +126,7 @@ if (isset($_POST['enviar'])) {
         <br/>
         <br/>
 
-        <input type="submit" value="Subir noticia" name="enviar">
+        <input type="submit" value="Insertar noticia" name="enviar">
 
 
     </form>
