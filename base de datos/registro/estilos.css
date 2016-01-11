@@ -1,0 +1,40 @@
+body {
+    width: 100%;
+}
+
+body > div {
+    margin: 0 auto;
+    width: 400px;
+}
+
+h1 {
+    color: blue;
+}
+
+form {
+    border: 1px solid blue;
+    padding: 10px;
+}
+
+input[type="checkbox"] {
+    display: inline;
+    margin-top: 10px;
+}
+
+label[for="terminos"] {
+    margin-left: 0;
+    margin-top: 10px;
+}
+
+input[type="submit"] {
+    margin-top: 10px;
+}
+
+input {
+    display: block;
+    margin-bottom: 10px;
+}
+
+label, input {
+    margin-left: 20px;
+}
