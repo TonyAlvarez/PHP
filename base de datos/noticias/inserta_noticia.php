@@ -11,13 +11,13 @@
 
 <?php
 
-include_once "Conexion.php";
-
-$con = new Conexion();
-
-$con->conectar();
-
 if (isset($_POST['enviar'])) {
+
+    include_once "Conexion.php";
+
+    $con = new Conexion();
+
+    $con->conectar();
 
     if ($_POST["titulo"] == null || $_POST["texto"] == null) {
 

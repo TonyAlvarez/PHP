@@ -11,16 +11,31 @@ table {
 th {
     border: 1px solid #000;
     background-color: darkolivegreen;
+    padding: 5px;
 }
 
 td {
     border: 1px solid #000;
     min-width: 90px;
+    padding: 5px;
 }
 
 td:nth-of-type(5), td:nth-of-type(6) {
     text-align: center;
     min-width: 40px;
+}
+
+td.grafico {
+    min-width: 200px;
+}
+
+td.grafico div#si{
+    background: green;
+    height: 25px;
+}
+td.grafico div#no{
+    background: red;
+    height: 25px;
 }
 
 img {

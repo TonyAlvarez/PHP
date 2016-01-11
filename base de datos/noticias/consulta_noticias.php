@@ -59,7 +59,6 @@ if ($num_resultados > 0) {
         echo '</tr>';
     }
 
-
     echo '</table>';
 }
 

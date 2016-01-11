@@ -7,35 +7,45 @@
 </head>
 <body>
 
-<h1>Eliminar noticias</h1>
+<h1>Consulta de noticias por categoria</h1>
 
-<?php
-
-include_once "Conexion.php";
-
-$con = new Conexion();
-
-$con->conectar();
-
-if (isset($_POST['enviar']) && isset($_POST['eliminar'])) {
-
-    $checks = $_POST['eliminar'];
-
-    foreach ($checks as $check=>$value) {
-        $con->ejecutar_consulta("DELETE FROM `noticias` WHERE `id` = " . $value);
-    }
-
-}
-
-?>
 
 <form method="POST" enctype="multipart/form-data">
 
-    <?php
+    <label>Mostrar resultado de la categoría:
+        <select name="categoria">
+            <option value="todas">Todas</option>
+            <option value="costas">Costas</option>
+            <option value="ofertas">Ofertas</option>
+            <option value="promociones">Promociones</option>
+        </select>
+    </label>
 
-    $result = $con->ejecutar_consulta("SELECT * FROM noticias");
+    <input type="submit" value="Mostrar" name="enviar">
+
+</form>
+
+<?php
+
+
+if (isset($_POST['enviar']) && isset($_POST["categoria"])) {
+
+    include_once "Conexion.php";
+
+    $con = new Conexion();
+    $con->conectar();
+
+
+    //Obtenemos la categoria del POST
+    if ($_POST["categoria"] == "todas")
+        $result = $con->ejecutar_consulta("SELECT * FROM noticias");
+    else
+        $result = $con->ejecutar_consulta("SELECT * FROM noticias WHERE `categoria` LIKE '" . $_POST["categoria"] . "'");
 
     $num_resultados = $result->num_rows;
+
+    //Mostramos el número total de resultados.
+    echo $num_resultados . " resultados. <br />";
 
     //Si hay resultados pintamos la tabla
     if ($num_resultados > 0) {
@@ -47,7 +57,6 @@ if (isset($_POST['enviar']) && isset($_POST['eliminar'])) {
         echo '<th>Categoria</th>';
         echo '<th>Fecha</th>';
         echo '<th>Imagen</th>';
-        echo '<th>Eliminar</th>';
 
         while ($row = $result->fetch_assoc()) {
 
@@ -71,22 +80,15 @@ if (isset($_POST['enviar']) && isset($_POST['eliminar'])) {
                 echo '<td></td>';
             }
 
-
-            echo "<td><input type='checkbox' name='eliminar[]' value='$id'><br></td>";
-
             echo '</tr>';
         }
 
 
         echo '</table>';
     }
+}
 
-    ?>
-
-    <br/>
-
-    <input type="submit" value="Eliminar noticias seleccionadas" name="enviar">
-</form>
+?>
 
 </body>
 </html>
