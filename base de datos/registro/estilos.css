@@ -17,24 +17,33 @@ form {
 }
 
 input[type="checkbox"] {
-    display: inline;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 label[for="terminos"] {
+    display: inline-block;
     margin-left: 0;
     margin-top: 10px;
 }
 
 input[type="submit"] {
+    display: block;
     margin-top: 10px;
 }
 
-input {
-    display: block;
-    margin-bottom: 10px;
+span {
+    margin-top: 5px;
 }
 
-label, input {
+label {
+    margin-top: 15px;
+}
+
+label, span {
+    display: block;
+}
+
+label, input, span {
     margin-left: 20px;
 }
