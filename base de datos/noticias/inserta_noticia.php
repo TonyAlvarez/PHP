@@ -64,8 +64,7 @@ if (isset($_POST['enviar'])) {
         else
             $insert= "INSERT INTO `noticias`(`titulo`, `texto`, `categoria`, `fecha`) VALUES ('$titulo','$texto','$categoria','$fecha_actual')";
 
-
-        $result = $con->ejecutar_consulta($insert);
+        $con->ejecutar_consulta($insert);
         ?>
 
         La noticia ha sido recibida correctamente
