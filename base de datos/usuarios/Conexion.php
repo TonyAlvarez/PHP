@@ -6,7 +6,7 @@
  * Date: 21/12/15
  * Time: 20:13
  */
-class conexion
+class Conexion
 {
 
     private $con;
@@ -22,7 +22,6 @@ class conexion
             }
 
             $this->con->set_charset("UTF8");
-
 
             if (!$this->con->select_db("registro")) {
                 echo "Se ha producido un error de conexion a la base de datos";

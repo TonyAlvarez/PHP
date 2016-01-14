@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Noticias</title>
+    <title>Registro</title>
     <link rel="stylesheet" type="text/css" href="estilos.css"/>
 </head>
 
@@ -12,13 +12,13 @@
 
 $error_campo_vacio = false;
 $error_requisitos = false;
-$error_usuarios_existe = false;
+$error_usuario_existe = false;
 
-$error_pass = false;
+$error_pass_incorrecto = false;
 $error_pass_repeat = false;
 $error_email = false;
 
-$registro_correcto = false;
+$login_correcto = false;
 
 if (isset($_POST['enviar'])) {
 
@@ -30,14 +30,19 @@ if (isset($_POST['enviar'])) {
         $nombre = $_POST['nombre'];
         $email = $_POST['email'];
         $firma = $_POST['firma'];
-        $terminos = $_POST['terminos'];
+
+        //Si algún campo está vacio
+        if ($nick == null || $nombre == null || $firma == null) {
+            $error_requisitos = true;
+            $error_campo_vacio = true;
+        }
 
         if (strlen($pass) < 8) {
-            $error_pass = true;
+            $error_pass_incorrecto = true;
             $error_requisitos = true;
             $msg_error_pass = "La contraseña tiene que contener al menos 8 caracteres";
         } else if (!preg_match("#[0-9]+#", $pass) || !preg_match("#[A-Z]+#", $pass) || !preg_match("#[a-z]+#", $pass)) {
-            $error_pass = true;
+            $error_pass_incorrecto = true;
             $error_requisitos = true;
             $msg_error_pass = "La contraseña tiene que tener al menos una letra minúscula, una mayúscula y un número";
         }
@@ -52,6 +57,9 @@ if (isset($_POST['enviar'])) {
             $error_requisitos = true;
         }
 
+        /**
+         * Si no hay ningún error de validación, conectamos con la base de datos.
+         */
         if (!$error_requisitos) {
             include_once "Conexion.php";
 
@@ -62,7 +70,7 @@ if (isset($_POST['enviar'])) {
 
             if ($result->num_rows > 0) {
                 //El usuario ya existe, avisar al usuario.
-                $error_usuarios_existe = true;
+                $error_usuario_existe = true;
             } else {
 
                 //No hay ningún error, se genera un hash para la contraseña y se hace el INSERT.
@@ -95,7 +103,7 @@ if (isset($_POST['enviar'])) {
                     " VALUES ('" . $nick . "','" . $pass_hash . "','" . $nombre . "','" . $email . "','" . $firma . "', 'avatar_defecto.png', 1)");
 
                 //Si llega hasta aquí sin ningún error, ni de comprobación de datos del formulario, ni de la base de datos, es que el registro se ha completado correctamente.
-                $registro_correcto = true;
+                $login_correcto = true;
             }
 
         }
@@ -103,19 +111,18 @@ if (isset($_POST['enviar'])) {
     } else {
         $error_campo_vacio = true;
     }
-
-
 }
-
 
 ?>
 
-<div>
-    <h1>Formulario de registro</h1>
+
+<h1>Formulario de registro</h1>
+
+<div id="contenedor-form">
 
     <?php
 
-    if ($registro_correcto) {
+    if ($login_correcto) {
 
         echo "<br /><br /><br /><br /><h3>Gracias por registrarte</h3>";
 
@@ -123,7 +130,7 @@ if (isset($_POST['enviar'])) {
 
         ?>
 
-        <form method="POST">
+        <form method="POST" id="registro">
             <label for="nick">Login / Nickname *</label>
             <input type="text" name="nick" id="nick"/>
 
@@ -132,7 +139,7 @@ if (isset($_POST['enviar'])) {
                 if ($_POST["nick"] == null) {
                     echo "<span style='color:red'>Este campo no puede estar vacio</span>";
                     $error_campo_vacio = false;
-                } else if ($error_usuarios_existe) {
+                } else if ($error_usuario_existe) {
                     echo "<span style='color:red'>El nombre de usuario ya existe</span>";
                 }
             }
@@ -146,7 +153,7 @@ if (isset($_POST['enviar'])) {
                 if ($_POST["pass"] == null && $error_campo_vacio) {
                     echo "<span style='color:red'>Este campo no puede estar vacio</span>";
                     $error_campo_vacio = false;
-                } else if ($error_pass) {
+                } else if ($error_pass_incorrecto) {
                     echo "<span style='color:red'>$msg_error_pass</span>";
                     $error_requisitos = false;
                 }
