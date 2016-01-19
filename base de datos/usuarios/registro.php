@@ -1,3 +1,13 @@
+<?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+include_once 'metodos.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +15,11 @@
     <title>Registro</title>
     <link rel="stylesheet" type="text/css" href="estilos.css"/>
 </head>
-
 <body>
 
 <?php
+
+setMenu();
 
 $error_campo_vacio = false;
 $error_requisitos = false;

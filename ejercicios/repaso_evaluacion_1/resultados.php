@@ -18,7 +18,7 @@ include_once "funciones.php";
 </head>
 <body>
 
-<?php setCabecera(); ?>
+<?php setMenu(); ?>
 
 
 <h4>Resultados de la encuesta:</h4>

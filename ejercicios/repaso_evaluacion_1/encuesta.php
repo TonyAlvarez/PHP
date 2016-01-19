@@ -31,7 +31,7 @@ fclose($fichero);
 </head>
 <body>
 
-<?php setCabecera(); ?>
+<?php setMenu(); ?>
 
 <form method="POST">
 

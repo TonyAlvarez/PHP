@@ -2,7 +2,7 @@
 
 include_once 'interfaz.php';
 
-setCabecera();
+setMenu();
 
 echo '<h2>Estadísticas</h2>';
 

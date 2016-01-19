@@ -1,3 +1,19 @@
+<?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+include_once 'metodos.php';
+
+if (isset($_SESSION['login']) && $_SESSION['login']) {
+    //Si ya se ha iniciado sesion, se redirecciona a HOME.
+    header('Location: index.php');
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +21,12 @@
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="estilos.css"/>
 </head>
-
 <body>
 
 <?php
+
+
+setMenu();
 
 $login_correcto = false;
 
@@ -27,18 +45,32 @@ if (isset($_POST['enviar'])) {
         $con = new Conexion();
         $con->conectar();
 
-        $result = $con->ejecutar_consulta("SELECT `password` FROM `usuarios` WHERE `nick` LIKE '" . $nick . "'");
+        $result = $con->ejecutar_consulta("SELECT * FROM `usuarios` WHERE `nick` LIKE '" . $nick . "'");
 
-        if ($result->num_rows != 0) {
+        if ($result->num_rows > 0) {
 
             $row = $result->fetch_assoc();
             $pass_hash = $row['password'];
 
+            if (password_verify($pass, $pass_hash)) {
 
-            if (!password_verify($pass, $pass_hash)) {
-                $error_pass_incorrecto = true;
+                $pass_hash = $row['password'];
+
+                $_SESSION["login"] = true;
+
+                $_SESSION["user"] = array();
+                $_SESSION["user"]["nick"] = $nick;
+                $_SESSION["user"]["password"] = $pass_hash;
+                $_SESSION["user"]["id"] = $row['id'];
+                $_SESSION["user"]["nombre"] = $row['nombre'];
+                $_SESSION["user"]["email"] = $row['email'];
+                $_SESSION["user"]["firma"] = $row['firma'];
+                $_SESSION["user"]["avatar"] = $row['avatar'];
+                $_SESSION["user"]["tipo"] = $row['tipo'];
+
+                header('Location: index.php');
             } else {
-                $login_correcto = true;
+                $error_pass_incorrecto = true;
             }
         } else {
             //El usuario no existe, avisar al usuario.
@@ -57,16 +89,6 @@ if (isset($_POST['enviar'])) {
 <h1>Acceder como usuario registrado.</h1>
 
 <div id="contenedor-form">
-
-    <?php
-
-    if ($login_correcto) {
-
-        echo "Bienvenido de nuevo " . $nick;
-
-    } else {
-
-        ?>
 
         <form method="POST">
             <label for="nick">Nombre de usuario: </label>
@@ -98,10 +120,6 @@ if (isset($_POST['enviar'])) {
             <input type="submit" value="Aceptar" name="enviar">
         </form>
 
-
-        <?php
-    }
-    ?>
 </div>
 
 </body>
