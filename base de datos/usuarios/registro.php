@@ -4,7 +4,12 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-include_once 'metodos.php';
+include_once 'funciones.php';
+
+if (isset($_SESSION['login']) && $_SESSION['login']) {
+    //Si ya se ha iniciado sesion, se redirecciona a HOME.
+    header('Location: index.php');
+}
 
 ?>
 
@@ -25,7 +30,7 @@ $error_campo_vacio = false;
 $error_requisitos = false;
 $error_usuario_existe = false;
 
-$error_pass_incorrecto = false;
+$error_pass_req = false;
 $error_pass_repeat = false;
 $error_email = false;
 
@@ -42,27 +47,35 @@ if (isset($_POST['enviar'])) {
         $email = $_POST['email'];
         $firma = $_POST['firma'];
 
-        //Si algún campo está vacio
+        //Comprobar si algún campo está vacio
         if ($nick == null || $nombre == null || $firma == null) {
             $error_requisitos = true;
             $error_campo_vacio = true;
         }
 
+        //Comprobar que la contraeña tiene al menos 8 caracteres y que cumple conlos requisitos.
         if (strlen($pass) < 8) {
-            $error_pass_incorrecto = true;
+            $error_pass_req = true;
             $error_requisitos = true;
             $msg_error_pass = "La contraseña tiene que contener al menos 8 caracteres";
         } else if (!preg_match("#[0-9]+#", $pass) || !preg_match("#[A-Z]+#", $pass) || !preg_match("#[a-z]+#", $pass)) {
-            $error_pass_incorrecto = true;
+            $error_pass_req = true;
             $error_requisitos = true;
             $msg_error_pass = "La contraseña tiene que tener al menos una letra minúscula, una mayúscula y un número";
         }
 
+        //Comprobar que las contraseñas coinciden
         if ($pass_repeat != $pass) {
             $error_pass_repeat = true;
             $error_requisitos = true;
         }
 
+        /**
+         * Comprobar que el email está bien formateado
+         *
+         * Sacado de StackOverflow:
+         * http://stackoverflow.com/a/12026863/710274
+         */
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error_email = true;
             $error_requisitos = true;
@@ -134,16 +147,15 @@ if (isset($_POST['enviar'])) {
     <?php
 
     if ($login_correcto) {
-
         echo "<br /><br /><br /><br /><h3>Gracias por registrarte</h3>";
-
     } else {
 
         ?>
 
         <form method="POST" id="registro">
             <label for="nick">Login / Nickname *</label>
-            <input type="text" name="nick" id="nick"/>
+            <input type="text" name="nick"
+                   id="nick" <?php if (isset($_POST['enviar'])) echo "value='" . $_POST['nick'] . "'"; ?>/>
 
             <?php
             if (isset($_POST['enviar'])) {
@@ -164,7 +176,7 @@ if (isset($_POST['enviar'])) {
                 if ($_POST["pass"] == null && $error_campo_vacio) {
                     echo "<span style='color:red'>Este campo no puede estar vacio</span>";
                     $error_campo_vacio = false;
-                } else if ($error_pass_incorrecto) {
+                } else if ($error_pass_req) {
                     echo "<span style='color:red'>$msg_error_pass</span>";
                     $error_requisitos = false;
                 }
@@ -187,7 +199,8 @@ if (isset($_POST['enviar'])) {
             ?>
 
             <label for="nombre">Nombre *</label>
-            <input type="text" name="nombre" id="nombre"/>
+            <input type="text" name="nombre"
+                   id="nombre" <?php if (isset($_POST['enviar'])) echo "value='" . $_POST['nombre'] . "'"; ?>/>
 
             <?php
             if (isset($_POST['enviar'])) {
@@ -198,7 +211,8 @@ if (isset($_POST['enviar'])) {
             }
             ?>
             <label for="email">Correo electrónico *</label>
-            <input type="email" name="email" id="email"/>
+            <input type="email" name="email"
+                   id="email" <?php if (isset($_POST['enviar'])) echo "value='" . $_POST['email'] . "'"; ?>/>
 
             <?php
             if (isset($_POST['enviar'])) {
@@ -212,7 +226,8 @@ if (isset($_POST['enviar'])) {
             ?>
 
             <label for="firma">Firma personal *</label>
-            <input type="text" name="firma" id="firma"/>
+            <input type="text" name="firma"
+                   id="firma" <?php if (isset($_POST['enviar'])) echo "value='" . $_POST['firma'] . "'"; ?>/>
 
             <?php
             if (isset($_POST['enviar'])) {
@@ -236,7 +251,7 @@ if (isset($_POST['enviar'])) {
             }
             ?>
 
-            <input type="submit" value="Aceptar" name="enviar">
+            <input type="submit" value="Registrarme" name="enviar">
         </form>
 
 

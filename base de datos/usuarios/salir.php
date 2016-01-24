@@ -4,7 +4,12 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-include_once 'metodos.php';
+include_once 'funciones.php';
+
+if (!isset($_SESSION['login']) || !$_SESSION['login']) {
+    //Si no se ha iniciado sesión, se redirecciona a HOME.
+    header('Location: index.php');
+}
 
 ?>
 

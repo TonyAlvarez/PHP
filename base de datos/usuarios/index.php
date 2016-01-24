@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-include_once 'metodos.php';
+include_once 'funciones.php';
 
 ?>
 
@@ -21,30 +21,33 @@ include_once 'metodos.php';
 
 <h1>Home</h1>
 
-
 <?php
 
 if (isset($_SESSION["login"]) && $_SESSION["login"]) {
 
-
     ?>
 
-    <p>Bienvenido <?php echo $_SESSION["user"]["nick"]; ?></p>
+    <div>
+        <img src="<?php echo "avatares/" . $_SESSION["user"]["avatar"]; ?>" height="100" width="100">
 
+        <p>Bienvenid@ <b><?php echo $_SESSION["user"]["nombre"] . " (" . $_SESSION["user"]["nick"] . ")"; ?></b></p>
+
+        <p><?php echo $_SESSION["user"]["hora"]; ?></p>
+    </div>
     <?php
 
-
 } else {
+
     ?>
 
     <p>Bienvenido anónimo.</p>
+
+    <a href="login.php" class="button">Iniciar sesión</a>
 
     <?php
 }
 
 ?>
-
-
 
 
 </body>
