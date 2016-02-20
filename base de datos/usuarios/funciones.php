@@ -40,7 +40,6 @@ function setMenu()
  */
 function destruirSesion()
 {
-
     // Unset all of the session variables.
     $_SESSION = array();
 

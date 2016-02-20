@@ -1,46 +1,21 @@
 <?php
 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
 
-include_once 'funciones.php';
+$error_email = false;
+$error_pass_req = false;
+$error_pass_repeat = false;
+$error_pass_actual = false;
+$error_avatar_size = false;
+$error_avatar_type = false;
+$error_avatar_permisos = false;
 
-if (!isset($_SESSION['login']) || !$_SESSION['login']) {
-    //Si no se ha iniciado sesion, se redirecciona a HOME.
-    header('Location: index.php');
-}
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Perfil</title>
-    <link rel="stylesheet" type="text/css" href="estilos.css"/>
-</head>
-<body>
-
-<?php
-
-setMenu();
+$cambio_contraseña = false;
+$cambio_nombre = false;
+$cambio_email = false;
+$cambio_firma = false;
+$cambio_avatar = false;
 
 if (isset($_POST['enviar'])) {
-
-    $error_email = false;
-    $error_pass_req = false;
-    $error_pass_repeat = false;
-    $error_pass_actual = false;
-    $error_avatar_size = false;
-    $error_avatar_type = false;
-    $error_avatar_permisos = false;
-
-    $cambio_contraseña = false;
-    $cambio_nombre = false;
-    $cambio_email = false;
-    $cambio_firma = false;
-    $cambio_avatar = false;
 
     //Comprobar si el usuario quiere cambiar la contraseña, y verificar los datos introducidos
     if (!empty($_POST['pass'])) {
@@ -79,7 +54,6 @@ if (isset($_POST['enviar'])) {
                 //La contraseña actual no cumple los requisitos, avisar al usuario
                 $error_pass_actual = true;
             }
-
         }
 
         //Si no hay ningún error, se cambia la contraseña
@@ -115,7 +89,7 @@ if (isset($_POST['enviar'])) {
     }
 
     //Comprobar si el usuario quiere cambiar el avatar
-    if (!empty($_FILES['imagen']['name'])) {
+    if (!empty($_FILES['avatar']['name'])) {
 
         /**
          * Comprobar que el tamaño de la imagen no supera el límite de 500KB
@@ -127,7 +101,7 @@ if (isset($_POST['enviar'])) {
          * aún así se comprueba por código que el tamaño no supera el límite de 500KB
          *
          */
-        if ($_FILES['imagen']['size'] > 0 && $_FILES['imagen']['size'] <= 512000) {
+        if ($_FILES['avatar']['size'] > 0 && $_FILES['avatar']['size'] <= 512000) {
 
             /**
              * El siguiente código comprueba el MIME TYPE del archivo para comprobar que es una imagen
@@ -139,19 +113,20 @@ if (isset($_POST['enviar'])) {
             $fileInfo = new finfo(FILEINFO_MIME_TYPE);
             $formatosValidos = array('jpg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif');
 
-            if (array_search($fileInfo->file($_FILES['imagen']['tmp_name']), $formatosValidos, true)) {
+            if (array_search($fileInfo->file($_FILES['avatar']['tmp_name']), $formatosValidos, true)) {
                 $dir_subida = 'avatares/';
 
                 //Crear la carpeta de avatares si aún no está creada.
                 if (!is_dir($dir_subida))
                     mkdir($dir_subida, 0777);
 
-                $nombre_nuevo_avatar = time() . "-" . basename($_FILES['imagen']['name']);
+                $nombre_nuevo_avatar = time() . "-" . basename($_FILES['avatar']['name']);
 
                 $url_nuevo_avatar = $dir_subida . $nombre_nuevo_avatar;
 
                 //Comprobar que la imagen se ha subido correctamente y se ha movido a la carpeta de avatares
-                if (move_uploaded_file($_FILES['imagen']['tmp_name'], $url_nuevo_avatar)) {
+                if (move_uploaded_file($_FILES['avatar']['tmp_name'], $url_nuevo_avatar)) {
+
                     //Cambiarle los permisos a la imagen para después poder borrarla
                     chmod($url_nuevo_avatar, 0777);
 
@@ -176,7 +151,7 @@ if (isset($_POST['enviar'])) {
      */
     if ($cambio_contraseña || $cambio_nombre || $cambio_email || $cambio_avatar || $cambio_firma) {
 
-        include_once "Conexion.php";
+        include_once "modelo/Conexion.php";
 
         $con = new Conexion();
         $con->conectar();
@@ -187,7 +162,7 @@ if (isset($_POST['enviar'])) {
          */
         if ($cambio_contraseña) {
 
-            $result = $con->ejecutar_consulta("SELECT `password` FROM `usuarios` WHERE `id` LIKE " . $_SESSION['user']['id']);
+            $result = $con->ejecutar_consulta("SELECT `password` FROM `usuario` WHERE `login` LIKE " . $_SESSION['user']['login']);
 
             //Comprobar que la consulta ha dado algún resultado
             if ($result->num_rows > 0) {
@@ -272,8 +247,8 @@ if (isset($_POST['enviar'])) {
              * Generamos la consulta, se comprueba de nuevo si se tiene que cambiar la contraseña o no
              * Los demás campos siempre se cambian, en caso de que le usuario no haya cambiado un campo, se inserta el valor almcenado en la sesión
              */
-            $update_query = "UPDATE `usuarios` SET" . ($cambio_contraseña ? " `password`= '$updated_pass_hash'," : "") . " `nombre`='$updated_nombre',`email`='$updated_email',`firma`='$updated_firma',`avatar`='$updated_avatar'
-                  WHERE `id` = " . $_SESSION['user']['id'];
+            $update_query = "UPDATE `usuario` SET" . ($cambio_contraseña ? " `password`= '$updated_pass_hash'," : "") . " `nombre`='$updated_nombre',`email`='$updated_email',`firma`='$updated_firma',`avatar`='$updated_avatar'
+                  WHERE `login` = '" . $_SESSION['user']['login'] . "'";
 
             $con->ejecutar_consulta($update_query);
         }
@@ -284,125 +259,3 @@ if (isset($_POST['enviar'])) {
 }
 
 ?>
-
-
-<h1>Editar Perfil</h1>
-
-<div id="contenedor-form">
-
-    <form method="POST" id="registro" enctype="multipart/form-data">
-
-        <label for="nick">Usuario:</label>
-        <p class="nick"><?php echo $_SESSION['user']['nick'] ?></p>
-
-        <label for="tipo">Rango de usuario:</label>
-        <p class="tipo"><?php echo $_SESSION['user']['tipo'] ?></p>
-
-
-        <h3>Cambiar avatar</h3>
-
-        <div class="avatar">
-            <img src="<?php echo "avatares/" . $_SESSION["user"]["avatar"]; ?>" height="100" width="100">
-        </div>
-
-        <input type="hidden" name="MAX_FILE_SIZE" value="512000"/>
-
-        <input type="file" name="imagen">
-        <span class="tipo">* El límite de tamaño para el avatar son 500KB.</span>
-
-        <?php
-
-        if (isset($_POST['enviar'])) {
-            if ($error_avatar_size) {
-                echo "<span style='color:red'>El tamaño de la imagen no puede superar los 500KB.</span>";
-            } else if ($error_avatar_type) {
-                echo "<span style='color:red'>El archivo subido no es una imagen.</span>";
-            } else if ($error_avatar_permisos) {
-                echo "<span style='color:red'>Error al subir el nuevo avatar al servidor.</span>";
-            } else if ($cambio_avatar) {
-                echo "<span style='color:green'>El avatar se ha cambiado satisfactoriamente.</span>";
-            }
-        }
-
-        ?>
-
-
-        <h3>Cambiar datos personales</h3>
-
-        <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" id="nombre" placeholder="<?php echo $_SESSION['user']['nombre']; ?>"/>
-
-        <?php
-        if (isset($_POST['enviar']) && $cambio_nombre) {
-            echo "<span style='color:green'>El nombre se ha cambiado satisfactoriamente.</span>";
-        }
-        ?>
-
-        <label for="email">Correo electrónico:</label>
-        <input type="email" name="email" id="email" placeholder="<?php echo $_SESSION['user']['email']; ?>"/>
-
-        <?php
-        if (isset($_POST['enviar'])) {
-            if ($error_email) {
-                echo "<span style='color:red'>El formato del email no es correcto</span>";
-            } else if ($cambio_email) {
-                echo "<span style='color:green'>El email se ha cambiado satisfactoriamente.</span>";
-            }
-        }
-        ?>
-
-        <label for=" firma">Firma personal:</label>
-        <input type="text" name="firma" id="firma" placeholder="<?php echo $_SESSION['user']['firma']; ?>"/>
-
-        <?php
-        if (isset($_POST['enviar']) && $cambio_firma) {
-            echo "<span style='color:green'>La firma se ha cambiado satisfactoriamente.</span>";
-        }
-        ?>
-
-
-        <h3>Cambiar contraseña</h3>
-
-        <label for="current_pass">Contraseña actual:</label>
-        <input type="password" name="current_pass" id="current_pass" placeholder="********"/>
-
-        <?php
-        if (isset($_POST['enviar'])) {
-            if ($error_pass_actual) {
-                echo "<span style='color:red'>La contraseña es incorrecta</span>";
-            }
-        }
-        ?>
-
-        <label for="pass">Nueva contraseña:</label>
-        <input type="password" name="pass" id="pass" placeholder="********"/>
-
-        <?php
-
-        if (isset($_POST['enviar'])) {
-            if ($error_pass_req) {
-                echo "<span style='color:red'>La contraseña tiene que tener al menos 8 caracteres, incluyendo al menos una letra minúscula, una mayúscula y un número</span>";
-            }
-        }
-        ?>
-
-        <label for="pass_repeat">Repita la nueva contraseña:</label>
-        <input type="password" name="pass_repeat" id="pass_repeat" placeholder="********"/>
-
-        <?php
-        if (isset($_POST['enviar'])) {
-            if ($error_pass_repeat) {
-                echo "<span style='color:red'>Las contraseñas no coinciden</span>";
-            } else if ($cambio_contraseña) {
-                echo "<span style='color:green'>La contraseña se ha cambiado satisfactoriamente.</span>";
-            }
-        }
-        ?>
-
-        <input type="submit" value="Confirmar" name="enviar">
-    </form>
-
-</div>
-
-</body>
-</html>

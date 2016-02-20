@@ -1,0 +1,104 @@
+body {
+    margin: 0 auto;
+}
+
+table {
+    float: left;
+    margin: 50px;
+    border: 1px black solid;
+    border-radius: 5px;
+    font-family: Helvetica, Arial, serif;
+    border-collapse: collapse;
+}
+
+th {
+    background: dodgerblue;
+    font-size: 14px;
+}
+
+td, th {
+    padding: 6px;
+    border: 1px black solid;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.numero-sacado {
+    background-color: greenyellow;
+}
+
+.numero-recien-sacado, .numero-recien-tachado {
+    background-color: red;
+}
+
+.numero-tachado {
+    background-color: greenyellow;
+    text-decoration: line-through;
+}
+
+.vacio {
+    background: darkgray;
+}
+
+.sacar_bola {
+    background-color: blue;
+}
+
+.reiniciar {
+    background-color: darkgray;
+}
+
+div {
+    text-align: center;
+}
+
+div#contenedor {
+    width: 90%;
+    margin: 0 auto;
+}
+
+div#tablas {
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+div#div_izquierda {
+    width: 30%;
+    float: left;
+    overflow: hidden;
+    text-align: center;
+    margin-top: 50px;
+}
+
+div#div_derecha {
+    width: 70%;
+    float: left;
+    overflow: hidden;
+    text-align: center;
+}
+
+span#bola_sacada {
+    font-size: 100px;
+    color: blue;
+    font-weight: bold;
+}
+
+p#p_restantes {
+    font-size: 2em;
+}
+
+span#span_restantes {
+    color: blue;
+}
+
+button {
+    width: 100px;
+    height: 100px;
+    font-weight: bold;
+    font-size: 1em;
+    color: white;
+    margin-top: 30px;
+}
