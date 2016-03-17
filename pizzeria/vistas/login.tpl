@@ -1,6 +1,6 @@
 {include file="vistas/header.tpl" title="Pizzería"}
 
-<div class="container main">
+<div class="container centrar">
 
     <div class="row color-1" id="formulario_login">
         <div class="col-xs-12">

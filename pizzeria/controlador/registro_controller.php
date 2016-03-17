@@ -1,5 +1,8 @@
 <?php
 
+require_once "modelo/gestionUsuarios.php";
+require_once "modelo/clases/Usuario.php";
+
 //Variable para saber si la validación falla en algún momento, y así evitar conectar con la base de datos
 $error_requisitos = false;
 
@@ -14,24 +17,17 @@ $registro_correcto = false;
 
 if (isset($_POST['enviar'])) {
 
-    $login = $_POST['login'];
-    $pass = $_POST['pass'];
-    $pass_repeat = $_POST['pass_repeat'];
-    $nombre = $_POST['nombre'];
-    $email = $_POST['email'];
-    $firma = $_POST['firma'];
-
     //Comprobar que la contraeña tiene al menos 8 caracteres y que cumple conlos requisitos.
-    if (strlen($pass) < 8) {
+    if (strlen($_POST['pass']) < 8) {
         $error_pass_req = true;
         $error_requisitos = true;
-    } else if (!preg_match("#[0-9]+#", $pass) || !preg_match("#[A-Z]+#", $pass) || !preg_match("#[a-z]+#", $pass)) {
+    } else if (!preg_match("#[0-9]+#", $_POST['pass']) || !preg_match("#[A-Z]+#", $_POST['pass']) || !preg_match("#[a-z]+#", $_POST['pass'])) {
         $error_pass_req = true;
         $error_requisitos = true;
     }
 
     //Comprobar que las contraseñas coinciden
-    if ($pass_repeat != $pass)
+    if ($_POST['pass_repeat'] != $_POST['pass'])
         $error_requisitos = true;
 
     /**
@@ -40,55 +36,47 @@ if (isset($_POST['enviar'])) {
      * Sacado de StackOverflow:
      * http://stackoverflow.com/a/12026863/710274
      */
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $error_email = true;
         $error_requisitos = true;
     }
+
+    //Si hay algún campo vacio, error de requisitos
+    if (empty($_POST['login']) || empty($_POST['nombre']) || empty($_POST['firma']) || empty($_POST['terminos']))
+        $error_requisitos = true;
 
     /**
      * Si no hay ningún error de validación, conectamos con la base de datos.
      */
     if (!$error_requisitos) {
-        require_once "modelo/Conexion.php";
 
-        $con = new Conexion();
-        $con->conectar();
-
-        $result = $con->ejecutar_consulta("SELECT * FROM `usuario` WHERE `login` LIKE '" . $login . "'");
+        /**
+         * Comprobar si el nombre de usuario ya exite
+         */
+        //Sacar los datos de los usuarios de la BD
+        $result = getUsuario($_POST['login']);
 
         if ($result->num_rows > 0) {
-            //El usuario ya existe, avisar al usuario.
             $error_usuario_existe = true;
         } else {
 
             //No hay ningún error, se genera un hash para la contraseña y se hace el INSERT.
 
             /**
-             * Este código evaluará el servidor para determinar el coste permitido.
-             * Se establecerá el mayor coste posible sin disminuir demasiando la velocidad
-             * del servidor. 8-10 es una buena referencia, y más es bueno si los servidores
-             * son suficientemente rápidos. El código que sigue tiene como objetivo un tramo de
-             * ≤ 50 milisegundos, que es una buena referencia para sistemas con registros interactivos.
+             * Sacado de StackOverflow
              *
              * http://php.net/manual/es/function.password-hash.php
-             *
-             *
-             * Porque no usar md5hash:
-             *
-             * https://alias.io/2010/01/store-passwords-safely-with-php-and-mysql/
              */
-            $timeTarget = 0.05; // 50 milisegundos
+            $pass_hash = password_hash($_POST['pass'], PASSWORD_BCRYPT, ["cost" => 8]);
 
-            $coste = 8;
-            do {
-                $coste++;
-                $inicio = microtime(true);
-                $pass_hash = password_hash($pass, PASSWORD_BCRYPT, ["cost" => $coste]);
-                $fin = microtime(true);
-            } while (($fin - $inicio) < $timeTarget);
+            $usuario = new Usuario();
+            $usuario->setLogin($_POST['login']);
+            $usuario->setPass($pass_hash);
+            $usuario->setNombre($_POST['nombre']);
+            $usuario->setEmail($_POST['email']);
+            $usuario->setFirma($_POST['firma']);
 
-            $con->ejecutar_consulta("INSERT INTO `usuario`(`login`, `password`, `nombre`, `email`, `firma`) " .
-                " VALUES ('" . $login . "','" . $pass_hash . "','" . $nombre . "','" . $email . "','" . $firma . "')");
+            insertarUsuario($usuario);
 
             //Si llega hasta aquí sin ningún error, ni de comprobación de datos del formulario, ni de la base de datos, es que el registro se ha completado correctamente.
             $registro_correcto = true;

@@ -1,8 +1,8 @@
 {include file="vistas/header.tpl" title="Pizzería"}
 
-<div class="container main">
+<div class="container centrar">
 
-    <div class="row color-1" id="formulario_registro">
+    <div class="row">
         <div class="col-xs-12">
 
             {if $registro}

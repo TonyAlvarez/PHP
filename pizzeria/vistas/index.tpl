@@ -37,7 +37,7 @@
 
             {if $logedIn}
                 <div class="col-md-offset-3 col-md-3">
-                    <img class='img-rounded img-avatar' id="avatar-actual" src="avatares/{$sessionAvatar}">
+                    <img class='img-rounded img-avatar' id="avatar-actual" src="img/avatares/{$sessionAvatar}">
                 </div>
                 <div class="col-md-6">
                     {if $sessionUserType eq 2}

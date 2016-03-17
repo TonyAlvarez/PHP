@@ -1,25 +1,25 @@
 {include file="vistas/header.tpl" title="Pizzería"}
 
-<div class="container main">
+<div class="container centrar">
 
-    <div class="row color-1" id="formulario_registro">
+    <div class="row">
         <div class="col-xs-12">
 
-            <h1>Modificar perfil</h1>
+            <h1 class="page-header">Modificar perfil</h1>
             <form method="POST" class="form-horizontal" enctype="multipart/form-data">
                 <fieldset>
-
-                    <!-- Nombre de usuario -->
-                    <div class="form-group">
-                        <div class="col-md-offset-4 col-md-4">
-                            <h4>{$sessionUser}</h4>
-                        </div>
-                    </div>
 
                     <!-- Avatar actual -->
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-4">
-                            <img class='img-rounded img-avatar' id="avatar-actual" src="avatares/{$sessionAvatar}">
+                            <img class='img-rounded img-avatar' id="avatar-actual" src="img/avatares/{$sessionAvatar}">
+                        </div>
+                    </div>
+
+                    <!-- Nombre de usuario -->
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-4">
+                            <h3>{$sessionUser}</h3>
                         </div>
                     </div>
 

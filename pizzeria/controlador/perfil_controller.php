@@ -114,7 +114,7 @@ if (isset($_POST['enviar'])) {
             $formatosValidos = array('jpg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif');
 
             if (array_search($fileInfo->file($_FILES['avatar']['tmp_name']), $formatosValidos, true)) {
-                $dir_subida = 'avatares/';
+                $dir_subida = 'img/avatares/';
 
                 //Crear la carpeta de avatares si aún no está creada.
                 if (!is_dir($dir_subida))
@@ -162,7 +162,7 @@ if (isset($_POST['enviar'])) {
          */
         if ($cambio_contraseña) {
 
-            $result = $con->ejecutar_consulta("SELECT `password` FROM `usuario` WHERE `login` LIKE " . $_SESSION['user']['login']);
+            $result = $con->ejecutar_consulta("SELECT `password` FROM `usuario` WHERE `login` LIKE '" . $_SESSION['user']['login'] . "'");
 
             //Comprobar que la consulta ha dado algún resultado
             if ($result->num_rows > 0) {

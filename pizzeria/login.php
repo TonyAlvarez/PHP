@@ -29,5 +29,4 @@ $smarty->assign("captchaIncorrecto", $error_captcha_incorrecto);
 
 $smarty->display('vistas/login.tpl');
 
-
 ?>

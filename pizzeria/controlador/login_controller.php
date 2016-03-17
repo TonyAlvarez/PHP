@@ -1,6 +1,6 @@
 <?php
-
-$login_correcto = false;
+require_once "modelo/gestionUsuarios.php";
+require_once "modelo/clases/Usuario.php";
 
 $error_usuario_no_existe = false;
 $error_pass_incorrecto = false;
@@ -29,21 +29,16 @@ if (isset($_POST['enviar'])) {
         $mostrarCaptcha = ($intentos >= 3);
 
         /**
-         * Conectar con la base de datos,
-         * solo se conecta con la base de datos si se ha introducido un usuario y una contraseña
+         * Recuperar el usuario con el login que quiere acceder
          */
-        require_once "modelo/Conexion.php";
+        //Sacar los datos de los usuarios de la BD
+        $result = getUsuario($_POST['login']);
 
-        $con = new Conexion();
-        $con->conectar();
-
-        $result = $con->ejecutar_consulta("SELECT * FROM `usuario` WHERE `login` LIKE '" . $login . "'");
-
-        //Comprobar el usuario
+        //Comprobar que el usuario existe
         if ($result->num_rows > 0) {
 
-            $row = $result->fetch_assoc();
-            $pass_hash = $row['password'];
+            $datosUsuario = $result->fetch_assoc();
+            $pass_hash = $datosUsuario['password'];
 
             //Comprobar la contraseña
             if (!password_verify($password, $pass_hash)) {
@@ -61,18 +56,18 @@ if (isset($_POST['enviar'])) {
             }
 
             if (!$error_pass_incorrecto && (!$mostrarCaptcha || !$error_captcha_vacio && !$error_captcha_incorrecto)) {
-                $pass_hash = $row['password'];
+                $pass_hash = $datosUsuario['password'];
 
                 $_SESSION["login"] = true;
 
                 $_SESSION["user"] = array();
                 $_SESSION["user"]["login"] = $login;
                 $_SESSION["user"]["password"] = $pass_hash;
-                $_SESSION["user"]["nombre"] = $row['nombre'];
-                $_SESSION["user"]["email"] = $row['email'];
-                $_SESSION["user"]["firma"] = $row['firma'];
-                $_SESSION["user"]["avatar"] = $row['avatar'];
-                $_SESSION["user"]["tipo"] = $row['tipo'];
+                $_SESSION["user"]["nombre"] = $datosUsuario['nombre'];
+                $_SESSION["user"]["email"] = $datosUsuario['email'];
+                $_SESSION["user"]["firma"] = $datosUsuario['firma'];
+                $_SESSION["user"]["avatar"] = $datosUsuario['avatar'];
+                $_SESSION["user"]["tipo"] = $datosUsuario['tipo'];
 
                 //Guardamos la hora de login ya formateada y en español.
                 setlocale(LC_TIME, "es_ES");
@@ -109,3 +104,5 @@ if (isset($_POST['enviar'])) {
     }
 
 }
+
+?>

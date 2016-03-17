@@ -2,7 +2,7 @@ body {
     padding-top: 80px;
 }
 
-.main {
+.centrar {
     text-align: center;
 }
 
@@ -25,6 +25,7 @@ h1 {
 
 .img-avatar {
     width: 200px;
+    padding: 10px;
 }
 
 .help-block {
@@ -44,15 +45,129 @@ h1 {
     text-align: center;
 }
 
-.centrar {
-    text-align: center;
-}
-
 .ingrediente {
     padding: 5px;
+    text-align: center;
 }
 
 .ingrediente > .jumbotron {
     padding: 10px 20px 40px;
     background: #b3b8ff;
+}
+
+.pizza {
+    padding: 40px 20px;
+    margin-bottom: 40px;
+}
+
+.pizza img.img-responsive, .ingrediente img.img-responsive {
+    max-width: 160px;
+    margin: 0 auto;
+}
+
+.pizza .btn {
+    margin-top: 10px;
+    min-width: 150px;
+}
+
+/*
+    ESTILOS GESTION
+*/
+
+.vert-align tbody > tr > td {
+    vertical-align: middle;
+}
+
+.avatar-mini {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+table input, table select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+table td#descripcion {
+    width: 100%;
+}
+
+input:disabled, select:disabled {
+    color: #000;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: none;
+}
+
+.success input:disabled, .success select:disabled {
+    background: #dff0d8;
+}
+
+.info input:disabled, .info select:disabled {
+    background: #d9edf7;
+}
+
+button.editar, button.eliminar, button.guardar {
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 26px;
+    height: 26px;
+    margin: 0 5px;
+}
+
+button.editar {
+    background: #0081ff url(../img/edit_icon.png) no-repeat center;
+    background-size: 20px;
+}
+
+button.eliminar {
+    background: #f00 url(../img/delete_icon.png) no-repeat center;
+    background-size: 20px;
+}
+
+button.guardar {
+    background: #17ba00 url(../img/save_icon.png) no-repeat center;
+    background-size: 20px;
+}
+
+/*
+    PEDIDOS
+*/
+
+div.ingredientes:first-of-type {
+    margin-top: 40px !important;
+}
+
+div.ingredientes:last-of-type {
+    margin-bottom: 40px !important;
+}
+
+.ingrediente * {
+    width: 100%;
+}
+
+.ingrediente {
+    box-sizing: border-box !important;
+    text-align: center;
+    margin: 10px;
+    border: 3px solid transparent;
+}
+
+.seleccionado {
+    border: 3px solid green;
+    border-radius: 10px;
+}
+
+table form {
+    display: inline-block;
+}
+
+.modal-header, .modal-body, .modal-footer {
+    border: none;
+}
+
+.modal h4 {
+    padding-top: 20px;
 }
